@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset='utf-8' />
+    <title>Mapbox GL Draw Rectangle</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    <script src="./dist/DrawOrientedRectangle.min.js"></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
+        type='text/css' />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id='map'></div>
+    <script>
+        mapboxgl.accessToken = '';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'https://tilemaps.icgc.cat/tileserver/styles/water.json',
+            center: [2.278507, 41.594896],
+            zoom: 16
+        });
+
+        var modes = MapboxDraw.modes;
+        modes.draw_oriented_rectangle = DrawOrientedRectangle.default;
+        var draw = new MapboxDraw({
+            modes: modes
+        });
+        map.addControl(draw);
+        draw.changeMode('draw_oriented_rectangle');
+        map.on('draw.create', function (feature) {
+            console.log(feature);
+        });
+    </script>
+
+</body>
+
+</html>
