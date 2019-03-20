@@ -1,5 +1,5 @@
 {
-  "name": "mapbox-gl-draw-rectangle-oriented-mode",
+  "name": "@geostarters/mapbox-gl-draw-rectangle-oriented-mode",
   "version": "1.0.0",
   "description": "A custom mode for MapboxGL Draw to draw a oriented rentangle",
   "main": "dist/DrawOrientedRectangle.js",

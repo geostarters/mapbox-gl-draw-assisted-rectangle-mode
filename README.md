@@ -15,7 +15,7 @@ https://github.com/mapbox/mapbox-gl-draw/blob/master/src/modes/draw_polygon.js
 
 ### Install
 
-`npm install`
+`npm install @geostarters/mapbox-gl-draw-rectangle-oriented-mode`
 
 ### Demo 
 
