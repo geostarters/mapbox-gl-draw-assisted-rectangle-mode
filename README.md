@@ -19,7 +19,7 @@ https://github.com/mapbox/mapbox-gl-draw/blob/master/src/modes/draw_polygon.js
 
 ### Demo 
 
-https://geostarters.github.io/mapbox-gl-draw-oriented-rectangle-mode
+https://geostarters.github.io/mapbox-gl-draw-oriented-rectangle-mode/index.html
 
 ### Usage
 
