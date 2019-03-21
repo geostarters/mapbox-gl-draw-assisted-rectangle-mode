@@ -62,6 +62,8 @@ var DrawOrientedRectangle = {
 
       state.rectangle.updateCoordinate("0." + (state.currentVertexPosition + 1), getLastPoint[0], getLastPoint[1]);
 
+      console.info(getLastPoint);
+
       this.updateUIClasses({
         mouse: "pointer"
       });

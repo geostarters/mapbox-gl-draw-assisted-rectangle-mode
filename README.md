@@ -1,5 +1,5 @@
 ## Mapbox GL Draw Rectangle Oriented Mode
-[![npm version](https://badge.fury.io/js/%40geostarters%2Fmapbox-gl-draw-oriented-rectangle-mode.svg)](https://badge.fury.io/js/%40geostarters%2Fmapbox-gl-draw-oriented-rectangle-mode)
+[![npm version](https://badge.fury.io/js/%40geostarters%2Fmapbox-gl-draw-rectangle-oriented-mode.svg)](https://badge.fury.io/js/%40geostarters%2Fmapbox-gl-draw-rectangle-oriented-mode)
 
 This is a custom mode for (Mapbox GL Draw) [https://github.com/mapbox/mapbox-gl-draw]  that adds the functionality to draw  oriented rectangles.
 
