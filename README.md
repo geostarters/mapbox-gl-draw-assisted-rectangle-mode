@@ -67,10 +67,13 @@ MIT
 Developed by @ICGCAT
 
 More Info
-[https://openicgc.github.io/](https://openicgc.github.io/)
-[https://github.com/geostarters](https://github.com/geostarters)
-[http://betaportal.icgc.cat/](http://betaportal.icgc.cat/)
-[http://www.icgc.cat/en/](http://www.icgc.cat/en/)
+>[https://openicgc.github.io/](https://openicgc.github.io/)
+
+>[https://github.com/geostarters](https://github.com/geostarters)
+
+>[http://betaportal.icgc.cat/](http://betaportal.icgc.cat/)
+
+>[http://www.icgc.cat/en/](http://www.icgc.cat/en/)
 
 
 
