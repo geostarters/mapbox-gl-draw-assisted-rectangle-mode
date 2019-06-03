@@ -43,13 +43,24 @@
         var modes = MapboxDraw.modes;
         modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
         var draw = new MapboxDraw({
-            modes: modes
+            modes: modes,
+            displayControlsDefault: false,
+            controls: {
+                polygon: true,
+                trash: true
+            }
         });
         map.addControl(draw);
-        draw.changeMode('draw_assisted_rectangle');
+        // draw.changeMode('draw_assisted_rectangle');
         map.on('draw.create', function (feature) {
             console.log(feature);
         });
+        map.on("draw.modechange", (e) => {
+            if (e.mode === "draw_polygon") {
+                draw.changeMode("draw_assisted_rectangle");
+            }
+        });
+
     </script>
 
 </body>

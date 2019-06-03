@@ -18,7 +18,7 @@ https://github.com/mapbox/mapbox-gl-draw/blob/master/src/modes/draw_polygon.js
 
 `npm install @geostarters/mapbox-gl-draw-rectangle-assisted-mode`
 
-### Demo 
+### Page Demo 
 
 https://geostarters.github.io/mapbox-gl-draw-assisted-rectangle-mode/index.html
 
