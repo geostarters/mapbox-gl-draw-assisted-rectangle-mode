@@ -1,6 +1,6 @@
 {
   "name": "@geostarters/mapbox-gl-draw-rectangle-assisted-mode",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A custom mode for MapboxGL Draw to draw a assisted rentangle",
   "main": "dist/DrawAssistedRectangle.js",
   "author": "Geostarters - ICGC",
@@ -8,7 +8,8 @@
   "repository": "https://github.com/geostarters/mapbox-gl-draw-assisted-rectangle-mode",
   "keywords": [
     "MapBox GL",
-    "Mapbox-Draw Mode",
+    "Mapbox-gl-Draw",
+    "Custom mode",
     "Assisted Rectangle",
     "Vector Tiles"
   ],
