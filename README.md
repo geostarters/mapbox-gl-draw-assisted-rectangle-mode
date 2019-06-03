@@ -56,8 +56,6 @@ import DrawRectangle from 'mapbox-gl-draw-rectangle-assisted-mode';
 
 `npm build-all`  with babel
 
-.
-
 ### License
 
 MIT
