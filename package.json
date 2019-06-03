@@ -1,14 +1,20 @@
 {
-  "name": "@geostarters/mapbox-gl-draw-rectangle-oriented-mode",
-  "version": "1.0.1",
-  "description": "A custom mode for MapboxGL Draw to draw a oriented rentangle",
-  "main": "dist/DrawOrientedRectangle.js",
+  "name": "@geostarters/mapbox-gl-draw-rectangle-assisted-mode",
+  "version": "2.0.1",
+  "description": "A custom mode for MapboxGL Draw to draw a assisted rentangle",
+  "main": "dist/DrawAssistedRectangle.js",
   "author": "Geostarters - ICGC",
   "license": "MIT",
-  "repository": "https://github.com/geostarters/mapbox-gl-draw-oriented-rectangle-mode",
+  "repository": "https://github.com/geostarters/mapbox-gl-draw-assisted-rectangle-mode",
+  "keywords": [
+    "MapBox GL",
+    "Mapbox-Draw Mode",
+    "Assisted Rectangle",
+    "Vector Tiles"
+  ],
   "scripts": {
     "build": "babel src -d dist",
-    "build-web": "browserify dist/DrawOrientedRectangle.js --standalone DrawOrientedRectangle  --outfile  dist/DrawOrientedRectangle.min.js",
+    "build-web": "browserify dist/DrawAssistedRectangle.js --standalone DrawAssistedRectangle  --outfile  dist/DrawAssistedRectangle.min.js",
     "build-all": "run-s build build-web"
   },
   "devDependencies": {

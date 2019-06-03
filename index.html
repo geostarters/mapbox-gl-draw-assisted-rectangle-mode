@@ -4,12 +4,12 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>Mapbox GL Draw Rectangle</title>
+    <title>Mapbox GL Draw Assisted Rectangle</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-    <script src="./dist/DrawOrientedRectangle.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="./dist/DrawAssistedRectangle.min.js"></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
         type='text/css' />
     <style>
@@ -41,12 +41,12 @@
         });
 
         var modes = MapboxDraw.modes;
-        modes.draw_oriented_rectangle = DrawOrientedRectangle.default;
+        modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
         var draw = new MapboxDraw({
             modes: modes
         });
         map.addControl(draw);
-        draw.changeMode('draw_oriented_rectangle');
+        draw.changeMode('draw_assisted_rectangle');
         map.on('draw.create', function (feature) {
             console.log(feature);
         });

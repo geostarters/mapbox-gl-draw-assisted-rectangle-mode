@@ -1,22 +1,20 @@
-const doubleClickZoom = {
-  enable: ctx => {
-    setTimeout(() => {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var doubleClickZoom = {
+  enable: function enable(ctx) {
+    setTimeout(function () {
       // First check we've got a map and some context.
-      if (
-        !ctx.map ||
-        !ctx.map.doubleClickZoom ||
-        !ctx._ctx ||
-        !ctx._ctx.store ||
-        !ctx._ctx.store.getInitialConfigValue
-      )
-        return;
+      if (!ctx.map || !ctx.map.doubleClickZoom || !ctx._ctx || !ctx._ctx.store || !ctx._ctx.store.getInitialConfigValue) return;
 
       if (!ctx._ctx.store.getInitialConfigValue("doubleClickZoom")) return;
       ctx.map.doubleClickZoom.enable();
     }, 0);
   },
-  disable(ctx) {
-    setTimeout(() => {
+  disable: function disable(ctx) {
+    setTimeout(function () {
       if (!ctx.map || !ctx.map.doubleClickZoom) return;
 
       ctx.map.doubleClickZoom.disable();
@@ -24,17 +22,15 @@ const doubleClickZoom = {
   }
 };
 
-const DrawOrientedRectangle = {
+var DrawAssistedRectangle = {
 
-  onSetup: function (opts) {
-    const rectangle = this.newFeature({
+  onSetup: function onSetup(opts) {
+    var rectangle = this.newFeature({
       type: "Feature",
       properties: {},
       geometry: {
         type: "Polygon",
-        coordinates: [
-          []
-        ]
+        coordinates: [[]]
       }
     });
     this.addFeature(rectangle);
@@ -48,25 +44,23 @@ const DrawOrientedRectangle = {
       trash: true
     });
     return {
-      rectangle,
+      rectangle: rectangle,
       currentVertexPosition: 0
     };
   },
 
-  onTap: function (state, e) {
+  onTap: function onTap(state, e) {
 
     this.onClick(state, e);
   },
 
-  onClick: function (state, e) {
+  onClick: function onClick(state, e) {
 
     if (state.currentVertexPosition === 2) {
 
-      const getLastPoint = this.calculateFourthPoint(state, e);
+      var getLastPoint = this.calculateFourthPoint(state, e, false);
 
-      state.rectangle.updateCoordinate(`0.${state.currentVertexPosition +1}`, getLastPoint[0], getLastPoint[1]);
-
-      console.info(getLastPoint);
+      state.rectangle.updateCoordinate("0." + (state.currentVertexPosition + 1), getLastPoint[0], getLastPoint[1]);
 
       this.updateUIClasses({
         mouse: "pointer"
@@ -75,45 +69,38 @@ const DrawOrientedRectangle = {
       return this.changeMode("simple_select", {
         featuresId: state.rectangle.id
       });
-
-
     } else {
 
-      state.rectangle.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
+      state.rectangle.updateCoordinate("0." + state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
       state.currentVertexPosition++;
-      state.rectangle.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
-
+      state.rectangle.updateCoordinate("0." + state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
     }
-
-
-
-
-
-
   },
-  onMouseMove: function (state, e) {
+  onMouseMove: function onMouseMove(state, e) {
 
-    state.rectangle.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
+    state.rectangle.updateCoordinate("0." + state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 
+    if (state.currentVertexPosition === 2) {
+      var getLastTMPPoint = this.calculateFourthPoint(state, e, true);
+      state.rectangle.updateCoordinate("0." + (state.currentVertexPosition + 1), getLastTMPPoint[0], getLastTMPPoint[1]);
+    }
   },
 
-  calculateFourthPoint: function (state, e) {
+  calculateFourthPoint: function calculateFourthPoint(state, e, tmp) {
 
-    const zeroPoint = state.rectangle.getCoordinate("0.0");
-    const firstPoint = state.rectangle.getCoordinate("0.1");
-    const secodPoint = state.rectangle.getCoordinate("0.2");
-    const vector = [firstPoint[0] - zeroPoint[0], firstPoint[1] - zeroPoint[1]];
-    const fourtPoint = [secodPoint[0] - vector[0], secodPoint[1] - vector[1]];
+    var zeroPoint = state.rectangle.getCoordinate("0.0");
+    var firstPoint = state.rectangle.getCoordinate("0.1");
+    var secodPoint = tmp ? [e.lngLat.lng, e.lngLat.lat] : state.rectangle.getCoordinate("0.2");
+    var vector = [firstPoint[0] - zeroPoint[0], firstPoint[1] - zeroPoint[1]];
+    var fourtPoint = [secodPoint[0] - vector[0], secodPoint[1] - vector[1]];
 
     return fourtPoint;
-
   },
 
-
-  onKeyUp: function (state, e) {
+  onKeyUp: function onKeyUp(state, e) {
     if (e.keyCode === 27) return this.changeMode("simple_select");
   },
-  onStop: function (state) {
+  onStop: function onStop(state) {
     doubleClickZoom.enable(this);
     this.updateUIClasses({
       mouse: "none"
@@ -138,21 +125,18 @@ const DrawOrientedRectangle = {
       });
     }
   },
-  toDisplayFeatures: function (state, geojson, display) {
-    const isActivePolygon = geojson.properties.id === state.rectangle.id;
+  toDisplayFeatures: function toDisplayFeatures(state, geojson, display) {
+    var isActivePolygon = geojson.properties.id === state.rectangle.id;
     geojson.properties.active = isActivePolygon ? "true" : "false";
     if (!isActivePolygon) return display(geojson);
 
-    const coordinateCount = geojson.geometry.coordinates[0].length;
+    var coordinateCount = geojson.geometry.coordinates[0].length;
     if (coordinateCount < 3) {
       return;
     }
     if (coordinateCount <= 4) {
 
-      const lineCoordinates = [
-        [geojson.geometry.coordinates[0][0][0], geojson.geometry.coordinates[0][0][1]],
-        [geojson.geometry.coordinates[0][1][0], geojson.geometry.coordinates[0][1][1]]
-      ];
+      var lineCoordinates = [[geojson.geometry.coordinates[0][0][0], geojson.geometry.coordinates[0][0][1]], [geojson.geometry.coordinates[0][1][0], geojson.geometry.coordinates[0][1][1]]];
 
       display({
         type: "Feature",
@@ -169,7 +153,7 @@ const DrawOrientedRectangle = {
 
     return display(geojson);
   },
-  onTrash: function (state) {
+  onTrash: function onTrash(state) {
     this.deleteFeature([state.rectangle.id], {
       silent: true
     });
@@ -177,4 +161,4 @@ const DrawOrientedRectangle = {
   }
 };
 
-export default DrawOrientedRectangle;
+exports.default = DrawAssistedRectangle;
