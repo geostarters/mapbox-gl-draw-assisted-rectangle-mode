@@ -30,6 +30,7 @@
 
 <body>
 
+
     <div id='map'></div>
     <script>
         mapboxgl.accessToken = '';
@@ -40,8 +41,10 @@
             zoom: 16
         });
 
+        console.info(DrawAssistedRectangle);
         var modes = MapboxDraw.modes;
         modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
+        
         var draw = new MapboxDraw({
             modes: modes,
             displayControlsDefault: false,
@@ -59,6 +62,10 @@
             if (e.mode === "draw_polygon") {
                 draw.changeMode("draw_assisted_rectangle");
             }
+        });
+
+        map.on('load', function () {
+
         });
 
     </script>
