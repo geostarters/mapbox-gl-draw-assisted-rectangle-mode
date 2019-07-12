@@ -24,13 +24,30 @@
             bottom: 0;
             width: 100%;
         }
+
+        #infoRectangle {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background-color: white;
+            padding: 10px;
+            z-index: 10;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+            line-height: 10px;
+            font-size: 0.8em;
+            text-align: center;
+
+
+        }
     </style>
 
 </head>
 
 <body>
 
-
+    <div id="infoRectangle"></div>
     <div id='map'></div>
     <script>
         mapboxgl.accessToken = '';
@@ -41,10 +58,10 @@
             zoom: 16
         });
 
-        console.info(DrawAssistedRectangle);
+
         var modes = MapboxDraw.modes;
         modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
-        
+
         var draw = new MapboxDraw({
             modes: modes,
             displayControlsDefault: false,
@@ -54,7 +71,6 @@
             }
         });
         map.addControl(draw);
-        // draw.changeMode('draw_assisted_rectangle');
         map.on('draw.create', function (feature) {
             console.log(feature);
         });
@@ -63,6 +79,28 @@
                 draw.changeMode("draw_assisted_rectangle");
             }
         });
+
+
+
+        map.on('mousemove', function (e) {
+
+            if (draw.getMode() === "draw_assisted_rectangle") {
+
+                var features = map.queryRenderedFeatures(e.point);
+
+                if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line-active.hot") {
+
+                    console.info(features[0].properties.angle);
+                    document.getElementById("infoRectangle").innerHTML = "Angle:" + features[0].properties.angle;
+                }
+
+            }
+
+        });
+
+
+
+
 
         map.on('load', function () {
 

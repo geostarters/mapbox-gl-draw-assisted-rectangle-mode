@@ -86,12 +86,17 @@ const DrawAssistedRectangle = {
 
 
   },
-  onMouseMove: function onMouseMove(state, e) {
+  onMouseMove: function (state, e) {
 
     state.rectangle.updateCoordinate("0." + state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+    if (state.currentVertexPosition && state.currentVertexPosition > 0) {
+
+      this.calculateOrientedAnglePolygon(state);
+
+    }
 
     if (state.currentVertexPosition === 2) {
-      var getpXY3 = this.calculatepXY3(state, e, true);
+      const getpXY3 = this.calculatepXY3(state, e, true);
       if (getpXY3) {
         state.rectangle.updateCoordinate("0." + (state.currentVertexPosition + 1), getpXY3[0], getpXY3[1]);
       }
@@ -99,35 +104,14 @@ const DrawAssistedRectangle = {
 
   },
 
-  distance: function (lat1, lon1, lat2, lon2) {
-    var R = 6371;
-    var dLat = (lat2 - lat1) * Math.PI / 180;
-    var dLon = (lon2 - lon1) * Math.PI / 180;
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return Math.round(d * 1000);
 
-  },
-
-  isEqualDiagonal: function (pXY0, pXY1, pXY2, pXY3) {
-
-    const diagonalA = (this.distance(pXY0[1], pXY0[0], pXY2[1], pXY2[0])).toFixed(2);
-    const diagonalB = (this.distance(pXY3[1], pXY3[0], pXY1[1], pXY1[0])).toFixed(2);
-
-    return diagonalA === diagonalB ? true : false;
-
-
-  },
 
 
   deegrees2meters(px) {
 
     //gist from https://gist.github.com/springmeyer/871897
-    var x = px[0] * 20037508.34 / 180;
-    var y = Math.log(Math.tan((90 + px[1]) * Math.PI / 360)) / (Math.PI / 180);
+    const x = px[0] * 20037508.34 / 180;
+    let y = Math.log(Math.tan((90 + px[1]) * Math.PI / 360)) / (Math.PI / 180);
     y = y * 20037508.34 / 180;
     return [x, y]
 
@@ -135,19 +119,33 @@ const DrawAssistedRectangle = {
 
   meters2degress(px) {
     //gist from https://gist.github.com/springmeyer/871897
-    var lon = px[0] * 180 / 20037508.34;
-    var lat = Math.atan(Math.exp(px[1] * Math.PI / 20037508.34)) * 360 / Math.PI - 90;
+    const lon = px[0] * 180 / 20037508.34;
+    const lat = Math.atan(Math.exp(px[1] * Math.PI / 20037508.34)) * 360 / Math.PI - 90;
     return [lon, lat]
+  },
+
+  calculateOrientedAnglePolygon: function (state) {
+    const pXY0 = state.rectangle.getCoordinate("0.0");
+    const pXY0_3857 = this.deegrees2meters(pXY0);
+    const pXY1 = state.rectangle.getCoordinate("0.1");
+    const pXY1_3857 = this.deegrees2meters(pXY1);
+
+    const angleStdGraus = Math.atan2(pXY1_3857[1] - pXY0_3857[1], pXY1_3857[0] - pXY0_3857[0]) * 180 / Math.PI;
+    let angleSudGraus = -1.0 * (angleStdGraus + 90);
+    const angle = angleSudGraus < 0 ? angleSudGraus + 360 : angleSudGraus;
+
+    state.angle = parseFloat((angle).toFixed(2));
+
   },
 
   calculatepXY3: function (state, e, tmp) {
 
-    var pXY0 = state.rectangle.getCoordinate("0.0");
-    var pXY0_3857 = this.deegrees2meters(pXY0);
-    var pXY1 = state.rectangle.getCoordinate("0.1");
-    var pXY1_3857 = this.deegrees2meters(pXY1);
-    var pXY2_3857 = this.deegrees2meters([e.lngLat.lng, e.lngLat.lat]);
-    var mouse_3857 = this.deegrees2meters([e.lngLat.lng, e.lngLat.lat]);
+    const pXY0 = state.rectangle.getCoordinate("0.0");
+    const pXY0_3857 = this.deegrees2meters(pXY0);
+    const pXY1 = state.rectangle.getCoordinate("0.1");
+    const pXY1_3857 = this.deegrees2meters(pXY1);
+    let pXY2_3857 = this.deegrees2meters([e.lngLat.lng, e.lngLat.lat]);
+    const mouse_3857 = this.deegrees2meters([e.lngLat.lng, e.lngLat.lat]);
 
     if (pXY0_3857[0] === pXY1_3857[0]) {
       pXY2_3857 = [mouse_3857[0], pXY1_3857[1]];
@@ -156,8 +154,8 @@ const DrawAssistedRectangle = {
 
     } else {
 
-      var vector1_3857 = (pXY1_3857[1] - pXY0_3857[1]) / (pXY1_3857[0] - pXY0_3857[0]);
-      var vector2_3857 = -1.0 / vector1_3857;
+      const vector1_3857 = (pXY1_3857[1] - pXY0_3857[1]) / (pXY1_3857[0] - pXY0_3857[0]);
+      const vector2_3857 = -1.0 / vector1_3857;
 
       if (Math.abs(vector2_3857) < 1) {
         pXY2_3857[1] = vector2_3857 * (mouse_3857[0] - pXY1_3857[0]) + pXY1_3857[1];
@@ -169,10 +167,10 @@ const DrawAssistedRectangle = {
 
     }
 
-    var vector_3857 = [pXY1_3857[0] - pXY0_3857[0], pXY1_3857[1] - pXY0_3857[1]];
-    var pXY3_3857 = [pXY2_3857[0] - vector_3857[0], pXY2_3857[1] - vector_3857[1]];
-    var pXY2G = this.meters2degress(pXY2_3857);
-    var pXY3G = this.meters2degress(pXY3_3857);
+    const vector_3857 = [pXY1_3857[0] - pXY0_3857[0], pXY1_3857[1] - pXY0_3857[1]];
+    const pXY3_3857 = [pXY2_3857[0] - vector_3857[0], pXY2_3857[1] - vector_3857[1]];
+    const pXY2G = this.meters2degress(pXY2_3857);
+    const pXY3G = this.meters2degress(pXY3_3857);
     state.rectangle.updateCoordinate("0.2", pXY2G[0], pXY2G[1]);
     state.rectangle.updateCoordinate("0.3", pXY3G[0], pXY3G[1]);
 
@@ -215,13 +213,34 @@ const DrawAssistedRectangle = {
   toDisplayFeatures: function (state, geojson, display) {
     const isActivePolygon = geojson.properties.id === state.rectangle.id;
     geojson.properties.active = isActivePolygon ? "true" : "false";
+    geojson.properties.angle = state.angle;
+    geojson.angle=state.angle;
     if (!isActivePolygon) return display(geojson);
 
     const coordinateCount = geojson.geometry.coordinates[0].length;
+
     if (coordinateCount < 3) {
+
+      const coordinates = geojson.geometry.coordinates[0][0];
+
+      const vertexPoint = {
+        type: "Feature",
+        properties: geojson.properties,
+        angle:state.angle,
+        geometry: {
+          coordinates: geojson.geometry.coordinates[0][0],
+          type: "Point"
+        }
+      };
+
+      if (coordinates) {
+        display(vertexPoint);
+      }
+
+
       return;
     }
-    if (coordinateCount <= 4) {
+    if (coordinateCount >= 3 && coordinateCount <= 4) {
 
       const lineCoordinates = [
         [geojson.geometry.coordinates[0][0][0], geojson.geometry.coordinates[0][0][1]],
@@ -231,6 +250,7 @@ const DrawAssistedRectangle = {
       display({
         type: "Feature",
         properties: geojson.properties,
+        angle:state.angle,
         geometry: {
           coordinates: lineCoordinates,
           type: "LineString"
