@@ -214,7 +214,7 @@ const DrawAssistedRectangle = {
     const isActivePolygon = geojson.properties.id === state.rectangle.id;
     geojson.properties.active = isActivePolygon ? "true" : "false";
     geojson.properties.angle = state.angle;
-    geojson.angle=state.angle;
+    geojson.angle = state.angle;
     if (!isActivePolygon) return display(geojson);
 
     const coordinateCount = geojson.geometry.coordinates[0].length;
@@ -226,7 +226,7 @@ const DrawAssistedRectangle = {
       const vertexPoint = {
         type: "Feature",
         properties: geojson.properties,
-        angle:state.angle,
+        angle: state.angle,
         geometry: {
           coordinates: geojson.geometry.coordinates[0][0],
           type: "Point"
@@ -250,7 +250,7 @@ const DrawAssistedRectangle = {
       display({
         type: "Feature",
         properties: geojson.properties,
-        angle:state.angle,
+        angle: state.angle,
         geometry: {
           coordinates: lineCoordinates,
           type: "LineString"

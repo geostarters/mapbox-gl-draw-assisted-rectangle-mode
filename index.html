@@ -50,12 +50,111 @@
     <div id="infoRectangle"></div>
     <div id='map'></div>
     <script>
+        const STYLES_DRAW = [
+
+            {
+                "id": "gl-draw-line",
+                "type": "line",
+                "filter": ["all", ["==", "$type", "LineString"], ["!=", "mode", "static"]],
+                "layout": {
+                    "line-cap": "round",
+                    "line-join": "round"
+                },
+                "paint": {
+                    "line-color": "#FF0000",
+                    "line-width": 2
+                }
+            },
+            {
+                "id": "gl-draw-polygon-fill",
+                "type": "fill",
+                "filter": ["all", ["==", "$type", "Polygon"], ["!=", "mode", "static"]],
+                "paint": {
+                    "fill-color": "#FF0000",
+                    "fill-outline-color": "#D20C0C",
+                    "fill-opacity": 0.1
+                }
+            },
+
+            {
+                "id": "gl-draw-polygon-stroke-active",
+                "type": "line",
+                "filter": ["all", ["==", "$type", "Polygon"], ["!=", "mode", "static"]],
+                "layout": {
+                    "line-cap": "round",
+                    "line-join": "round"
+                },
+                "paint": {
+                    "line-color": "#D20C0C",
+                    "line-width": 2
+                }
+            },
+
+            {
+                "id": "gl-draw-polygon-and-line-vertex-halo-active",
+                "type": "circle",
+                "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+                "paint": {
+                    "circle-radius": 5,
+                    "circle-color": "#FFF"
+                }
+            },
+
+            {
+                "id": "gl-draw-polygon-and-line-vertex-active",
+                "type": "circle",
+                "filter": ["all", ["==", "meta", "vertex"], ["==", "$type", "Point"], ["!=", "mode", "static"]],
+                "paint": {
+                    "circle-radius": 3,
+                    "circle-color": "#D20C0C",
+                }
+            },
+
+            {
+                "id": "gl-draw-line-static",
+                "type": "line",
+                "filter": ["all", ["==", "$type", "LineString"], ["==", "mode", "static"]],
+                "layout": {
+                    "line-cap": "round",
+                    "line-join": "round"
+                },
+                "paint": {
+                    "line-color": "#FF0000",
+                    "line-width": 3
+                }
+            },
+            {
+                "id": "gl-draw-polygon-fill-static",
+                "type": "fill",
+                "filter": ["all", ["==", "$type", "Polygon"], ["==", "mode", "static"]],
+                "paint": {
+                    "fill-color": "#ee0508",
+                   
+                    "fill-opacity": 0.8
+                }
+            },
+            {
+                "id": "gl-draw-polygon-stroke-static",
+                "type": "line",
+                "filter": ["all", ["==", "$type", "Polygon"], ["==", "mode", "static"]],
+                "layout": {
+                    "line-cap": "round",
+                    "line-join": "round"
+                },
+                "paint": {
+                    "line-color": "#c40b0b",
+                   
+                    "line-width": 2
+                }
+            }
+        ];
         mapboxgl.accessToken = '';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'https://tilemaps.icgc.cat/tileserver/styles/water.json',
-            center: [2.278507, 41.594896],
-            zoom: 16
+            center: [-122.419518, 37.772995],
+            zoom: 17,
+            hash:true
         });
 
 
@@ -68,7 +167,9 @@
             controls: {
                 polygon: true,
                 trash: true
-            }
+            },
+            userProperties: true,
+            styles: STYLES_DRAW
         });
         map.addControl(draw);
         map.on('draw.create', function (feature) {
