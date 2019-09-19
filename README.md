@@ -5,9 +5,12 @@ This is a custom mode for (Mapbox GL Draw) [https://github.com/mapbox/mapbox-gl-
 
 > Changelog:
 >
-> Version 3.0.0: Draw strict rentangle mode
+> Version 3.0.2: Add custom draw rectangle style 
 >
 > Version 3.0.1: Add orientation angle calculation
+>
+> Version 3.0.0: Draw strict rentangle mode
+
 
 
 ![Assisted rectangle](draw-assisted-rectangle.gif)
