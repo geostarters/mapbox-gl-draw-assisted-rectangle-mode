@@ -3,19 +3,17 @@
 
 This is a custom mode for (Mapbox GL Draw) [https://github.com/mapbox/mapbox-gl-draw]  that adds the functionality to draw  assisted rectangles.
 
-> Changelog:
->
-> Version 3.0.2: Add custom draw rectangle style 
->
-> Version 3.0.1: Add orientation angle calculation
->
-> Version 3.0.0: Draw strict rentangle mode
-
-
 
 ![Assisted rectangle](draw-assisted-rectangle.gif)
 
+#### Changelog:
 
+```bash
+Version 3.0.3: Change to Mapbox GL js v1.4.0 
+Version 3.0.2: Add custom draw rectangle style 
+Version 3.0.1: Add orientation angle calculation
+Version 3.0.0: Draw strict rentangle mode
+```
 Based on:
 
 https://github.com/thegisdev/mapbox-gl-draw-rectangle-mode

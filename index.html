@@ -6,9 +6,9 @@
     <meta charset='utf-8' />
     <title>Mapbox GL Draw Assisted Rectangle</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
     <script src="./dist/DrawAssistedRectangle.min.js"></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
         type='text/css' />
@@ -191,7 +191,6 @@
 
                 if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line-active.hot") {
 
-                    console.info(features[0].properties.angle);
                     document.getElementById("infoRectangle").innerHTML = "Angle:" + features[0].properties.angle;
                 }
 

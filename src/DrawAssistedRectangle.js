@@ -97,6 +97,7 @@ const DrawAssistedRectangle = {
 
     if (state.currentVertexPosition === 2) {
       const getpXY3 = this.calculatepXY3(state, e, true);
+
       if (getpXY3) {
         state.rectangle.updateCoordinate("0." + (state.currentVertexPosition + 1), getpXY3[0], getpXY3[1]);
       }
@@ -129,8 +130,8 @@ const DrawAssistedRectangle = {
     const pXY0_3857 = this.deegrees2meters(pXY0);
     const pXY1 = state.rectangle.getCoordinate("0.1");
     const pXY1_3857 = this.deegrees2meters(pXY1);
-
     const angleStdGraus = Math.atan2(pXY1_3857[1] - pXY0_3857[1], pXY1_3857[0] - pXY0_3857[0]) * 180 / Math.PI;
+
     let angleSudGraus = -1.0 * (angleStdGraus + 90);
     const angle = angleSudGraus < 0 ? angleSudGraus + 360 : angleSudGraus;
 
@@ -174,10 +175,7 @@ const DrawAssistedRectangle = {
     state.rectangle.updateCoordinate("0.2", pXY2G[0], pXY2G[1]);
     state.rectangle.updateCoordinate("0.3", pXY3G[0], pXY3G[1]);
 
-
     return pXY3G;
-
-
 
   },
 
