@@ -9,6 +9,7 @@ This is a custom mode for (Mapbox GL Draw) [https://github.com/mapbox/mapbox-gl-
 #### Changelog:
 
 ```bash
+Version 3.0.4: Change to Mapbox GL js v1.6.0 and fix minor dependencies 
 Version 3.0.3: Change to Mapbox GL js v1.4.0 
 Version 3.0.2: Add custom draw rectangle style 
 Version 3.0.1: Add orientation angle calculation
@@ -35,20 +36,28 @@ https://geostarters.github.io/mapbox-gl-draw-assisted-rectangle-mode/index.html
 import DrawRectangle from 'mapbox-gl-draw-rectangle-assisted-mode';
 
         mapboxgl.accessToken = '';
-        var map = new mapboxgl.Map({
+        const map = new mapboxgl.Map({
             container: 'map',
             style: 'https://tilemaps.icgc.cat/tileserver/styles/water.json',
-            center: [2.278507, 41.594896],
-            zoom: 16
+            center: [-122.419518, 37.772995],
+            zoom: 17,
+            hash: true
         });
 
-        var modes = MapboxDraw.modes;
+        const modes = MapboxDraw.modes;
         modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
-        var draw = new MapboxDraw({
-            modes: modes
+
+        const draw = new MapboxDraw({
+            modes: modes,
+            displayControlsDefault: false,
+            controls: {
+                polygon: true,
+                trash: true
+            },
+            userProperties: true,
+            styles: STYLES_DRAW
         });
         map.addControl(draw);
-        draw.changeMode('draw_assisted_rectangle');
         map.on('draw.create', function (feature) {
             console.log(feature);
         });

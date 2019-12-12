@@ -6,9 +6,9 @@
     <meta charset='utf-8' />
     <title>Mapbox GL Draw Assisted Rectangle</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
     <script src="./dist/DrawAssistedRectangle.min.js"></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
         type='text/css' />
@@ -129,7 +129,7 @@
                 "filter": ["all", ["==", "$type", "Polygon"], ["==", "mode", "static"]],
                 "paint": {
                     "fill-color": "#ee0508",
-                   
+
                     "fill-opacity": 0.8
                 }
             },
@@ -143,25 +143,25 @@
                 },
                 "paint": {
                     "line-color": "#c40b0b",
-                   
+
                     "line-width": 2
                 }
             }
         ];
         mapboxgl.accessToken = '';
-        var map = new mapboxgl.Map({
+        const map = new mapboxgl.Map({
             container: 'map',
             style: 'https://tilemaps.icgc.cat/tileserver/styles/water.json',
             center: [-122.419518, 37.772995],
             zoom: 17,
-            hash:true
+            hash: true
         });
 
 
-        var modes = MapboxDraw.modes;
+        const modes = MapboxDraw.modes;
         modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
 
-        var draw = new MapboxDraw({
+        const draw = new MapboxDraw({
             modes: modes,
             displayControlsDefault: false,
             controls: {
@@ -185,11 +185,11 @@
 
         map.on('mousemove', function (e) {
 
+
             if (draw.getMode() === "draw_assisted_rectangle") {
-
-                var features = map.queryRenderedFeatures(e.point);
-
-                if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line-active.hot") {
+               
+                const features = map.queryRenderedFeatures(e.point);
+                if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line.hot") {
 
                     document.getElementById("infoRectangle").innerHTML = "Angle:" + features[0].properties.angle;
                 }
@@ -198,13 +198,6 @@
 
         });
 
-
-
-
-
-        map.on('load', function () {
-
-        });
 
     </script>
 
