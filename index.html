@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
-
-
 <head>
     <meta charset='utf-8' />
     <title>Mapbox GL Draw Assisted Rectangle</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.css' rel='stylesheet' />
     <script src="./dist/DrawAssistedRectangle.min.js"></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
         type='text/css' />
@@ -17,14 +15,12 @@
             margin: 0;
             padding: 0;
         }
-
         #map {
             position: absolute;
             top: 0;
             bottom: 0;
             width: 100%;
         }
-
         #infoRectangle {
             position: absolute;
             bottom: 5px;
@@ -38,20 +34,14 @@
             line-height: 10px;
             font-size: 0.8em;
             text-align: center;
-
-
         }
     </style>
-
 </head>
-
 <body>
-
     <div id="infoRectangle"></div>
     <div id='map'></div>
     <script>
         const STYLES_DRAW = [
-
             {
                 "id": "gl-draw-line",
                 "type": "line",
@@ -75,7 +65,6 @@
                     "fill-opacity": 0.1
                 }
             },
-
             {
                 "id": "gl-draw-polygon-stroke-active",
                 "type": "line",
@@ -89,7 +78,6 @@
                     "line-width": 2
                 }
             },
-
             {
                 "id": "gl-draw-polygon-and-line-vertex-halo-active",
                 "type": "circle",
@@ -99,7 +87,6 @@
                     "circle-color": "#FFF"
                 }
             },
-
             {
                 "id": "gl-draw-polygon-and-line-vertex-active",
                 "type": "circle",
@@ -109,7 +96,6 @@
                     "circle-color": "#D20C0C",
                 }
             },
-
             {
                 "id": "gl-draw-line-static",
                 "type": "line",
@@ -129,7 +115,6 @@
                 "filter": ["all", ["==", "$type", "Polygon"], ["==", "mode", "static"]],
                 "paint": {
                     "fill-color": "#ee0508",
-
                     "fill-opacity": 0.8
                 }
             },
@@ -143,7 +128,6 @@
                 },
                 "paint": {
                     "line-color": "#c40b0b",
-
                     "line-width": 2
                 }
             }
@@ -151,56 +135,42 @@
         mapboxgl.accessToken = '';
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'https://tilemaps.icgc.cat/tileserver/styles/water.json',
-            center: [-122.419518, 37.772995],
+            style: 'https://geoserveis.icgc.cat/contextmaps/icgc_mapa_base_fosc.json',
+            center: [2.153215,41.401834],
             zoom: 17,
             hash: true
         });
-
-
-        const modes = MapboxDraw.modes;
-        modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
-
-        const draw = new MapboxDraw({
-            modes: modes,
-            displayControlsDefault: false,
-            controls: {
-                polygon: true,
-                trash: true
-            },
-            userProperties: true,
-            styles: STYLES_DRAW
-        });
-        map.addControl(draw);
-        map.on('draw.create', function (feature) {
-            console.log(feature);
-        });
-        map.on("draw.modechange", (e) => {
-            if (e.mode === "draw_polygon") {
-                draw.changeMode("draw_assisted_rectangle");
-            }
-        });
-
-
-
-        map.on('mousemove', function (e) {
-
-
-            if (draw.getMode() === "draw_assisted_rectangle") {
-               
-                const features = map.queryRenderedFeatures(e.point);
-                if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line.hot") {
-
-                    document.getElementById("infoRectangle").innerHTML = "Angle:" + features[0].properties.angle;
+        map.on("load", function () {
+            const modes = MapboxDraw.modes;
+            modes.draw_assisted_rectangle = DrawAssistedRectangle.default;
+            const draw = new MapboxDraw({
+                modes: modes,
+                displayControlsDefault: false,
+                controls: {
+                    polygon: true,
+                    trash: true
+                },
+                userProperties: true,
+                styles: STYLES_DRAW
+            });
+            map.addControl(draw);
+            map.on('draw.create', function (feature) {
+                console.log(feature);
+            });
+            map.on("draw.modechange", (e) => {
+                if (e.mode === "draw_polygon") {
+                    draw.changeMode("draw_assisted_rectangle");
                 }
-
-            }
-
+            });
+            map.on('mousemove', function (e) {
+                if (draw.getMode() === "draw_assisted_rectangle") {
+                    const features = map.queryRenderedFeatures(e.point);
+                    if (features[0] && features[0].layer && features[0].layer.id === "gl-draw-line.hot") {
+                        document.getElementById("infoRectangle").innerHTML = "Angle:" + features[0].properties.angle;
+                    }
+                }
+            });
         });
-
-
     </script>
-
 </body>
-
 </html>
