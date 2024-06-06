@@ -39,7 +39,7 @@ import DrawRectangle from 'mapbox-gl-draw-rectangle-assisted-mode';
         const map = new mapboxgl.Map({
             container: 'map',
             style: 'https://geoserveis.icgc.cat/contextmaps/icgc_mapa_base_fosc.json',
-            center: [-122.419518, 37.772995],
+            center: [2.079575,41.38701],
             zoom: 17,
             hash: true
         });
